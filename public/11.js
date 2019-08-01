@@ -58,8 +58,8 @@ __webpack_require__.r(__webpack_exports__);
         // send coordinates for reverse geo encoding
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_AppConst__WEBPACK_IMPORTED_MODULE_1__["default"].get_location, {
           params: {
-            lat: value.lat,
-            "long": value["long"]
+            latlng: value.lat + "," + value["long"],
+            key: "AIzaSyCbZnPgGn9-uDMQW4uP89ctM7MXsD4kysE"
           }
         }).then(function (response) {
           if (response.status == '200') {
@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$store.dispatch('emptyRestaurants');
 
-            _this.$store.dispatch('setCurrentLocation', response.data);
+            _this.$store.dispatch('setCurrentLocation', response.data.formatted_address);
 
             _this.$router.push("/app/confirm_gps_location");
           }

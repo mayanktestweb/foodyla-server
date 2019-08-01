@@ -46429,7 +46429,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var RootUrl = "http://192.168.43.116:8000/api";
+var RootUrl = "https://www.foodyla.com/api";
 var UserIdUrl = RootUrl + "/user";
 var RestaurantPerPage = 6;
 var RestaurantsUrl = RootUrl + "/restaurants";
@@ -46438,7 +46438,7 @@ var ConfirmOrder = RootUrl + "/app/confirm_order";
 var OrderStatus = RootUrl + "/order_status";
 var ConfirmMobileNumber = RootUrl + "/app/confirm_mobile_number";
 var ConfirmOtp = RootUrl + "/app/confirm_otp";
-var GetLocation = RootUrl + "/location";
+var GetLocation = "https://maps.googleapis.com/maps/api/geocode/json";
 /* harmony default export */ __webpack_exports__["default"] = ({
   root_url: RootUrl,
   user_id_url: UserIdUrl,
@@ -46740,31 +46740,31 @@ var SetLocation = function SetLocation() {
 };
 
 var SetLocationManual = function SetLocationManual() {
-  return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/mobile/SetLocationManual.vue */ "./resources/js/views/mobile/SetLocationManual.vue"));
+  return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/mobile/SetLocationManual.vue */ "./resources/js/views/mobile/SetLocationManual.vue"));
 };
 
 var ConfirmGpsLocation = function ConfirmGpsLocation() {
-  return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/mobile/ConfirmGpsLocation.vue */ "./resources/js/views/mobile/ConfirmGpsLocation.vue"));
+  return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/mobile/ConfirmGpsLocation.vue */ "./resources/js/views/mobile/ConfirmGpsLocation.vue"));
 };
 
 var AddMobileNumber = function AddMobileNumber() {
-  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/mobile/AddMobileNumber.vue */ "./resources/js/views/mobile/AddMobileNumber.vue"));
+  return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/mobile/AddMobileNumber.vue */ "./resources/js/views/mobile/AddMobileNumber.vue"));
 };
 
 var Payment = function Payment() {
-  return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/mobile/Payment.vue */ "./resources/js/views/mobile/Payment.vue"));
+  return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/mobile/Payment.vue */ "./resources/js/views/mobile/Payment.vue"));
 };
 
 var ConfirmOrder = function ConfirmOrder() {
-  return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/mobile/ConfirmOrder.vue */ "./resources/js/views/mobile/ConfirmOrder.vue"));
+  return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/mobile/ConfirmOrder.vue */ "./resources/js/views/mobile/ConfirmOrder.vue"));
 };
 
 var Account = function Account() {
-  return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/mobile/Account.vue */ "./resources/js/views/mobile/Account.vue"));
+  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/mobile/Account.vue */ "./resources/js/views/mobile/Account.vue"));
 };
 
 var Orders = function Orders() {
-  return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/mobile/Orders.vue */ "./resources/js/views/mobile/Orders.vue"));
+  return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/mobile/Orders.vue */ "./resources/js/views/mobile/Orders.vue"));
 };
 
 
