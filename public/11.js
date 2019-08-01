@@ -71,11 +71,17 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$router.push("/app/confirm_gps_location");
           }
+        })["catch"](function (error) {
+          try {
+            Android.log(error);
+          } catch (error) {}
         });
       });
     },
     requestGpsPermission: function requestGpsPermission() {
-      Android.requestGpsPermission();
+      try {
+        Android.requestGpsPermission();
+      } catch (error) {}
     }
   },
   computed: {

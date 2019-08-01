@@ -54,12 +54,22 @@ export default {
                         this.$store.dispatch('setCurrentLocation', response.data.formatted_address);
                         this.$router.push("/app/confirm_gps_location");
                     }
+                }).catch(error => {
+                    try {
+                        Android.log(error);
+                    } catch (error) {
+                        
+                    }
                 });
             });
         },
 
         requestGpsPermission: function() {
-            Android.requestGpsPermission();
+            try {
+                Android.requestGpsPermission();
+            } catch (error) {
+                
+            }
         }
     },
 
