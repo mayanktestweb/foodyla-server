@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$store.dispatch('emptyRestaurants');
 
-            _this.$store.dispatch('setCurrentLocation', response.data.formatted_address);
+            _this.$store.dispatch('setCurrentLocation', response.data.results[0].formatted_address);
 
             _this.$router.push("/app/confirm_gps_location");
           }

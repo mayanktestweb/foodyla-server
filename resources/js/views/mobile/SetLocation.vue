@@ -51,7 +51,8 @@ export default {
                     if(response.status == '200') {
                         this.processing = false;
                         this.$store.dispatch('emptyRestaurants');
-                        this.$store.dispatch('setCurrentLocation', response.data.formatted_address);
+                        this.$store.dispatch('setCurrentLocation', 
+                            response.data.results[0].formatted_address);
                         this.$router.push("/app/confirm_gps_location");
                     }
                 }).catch(error => {
