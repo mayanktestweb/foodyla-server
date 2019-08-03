@@ -48,7 +48,7 @@ export default {
             mobile_number: "",
             otp: "",
             button_state: 'get mobile number',
-            showOtp: false,
+            showOtp: true,
             get_otp: false,
             lock_otp: false,
             timer: 30,

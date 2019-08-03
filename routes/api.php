@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,11 +44,6 @@ Route::get("/test", function(Request $request){
     }
     
     return response()->json(['image'=>'', 'varients_data' => $toReturn]);
-});
-
-Route::get("/location", function(Request $request){
-    \Log::debug("lat - ".$request->lat." long - ".$request->long);
-    return "nawada, bhind, Bhind, Madhya Pradesh, India";
 });
 
 /////////////////////////////////

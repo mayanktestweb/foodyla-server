@@ -8,6 +8,7 @@
                 color="amber darken-4"
                 flat
                 value="restaurants"
+                to="/app/landing_page"
             >
                 <span>Restaurants</span>
                 <v-icon>restaurant</v-icon>
@@ -17,6 +18,7 @@
                 color="amber darken-4"
                 flat
                 value="search"
+                to="/app/search"
             >
                 <span>Search</span>
                 <v-icon>search</v-icon>
@@ -26,7 +28,8 @@
             <v-btn
                 color="amber darken-4"
                 flat
-                value="cart" to="/mobile/cart"
+                value="cart"
+                to="/mobile/cart"
             >
                 <span>Cart</span>
                 <v-badge color="amber darken-4" right :value="$store.getters.cart.length > 0">
@@ -41,7 +44,8 @@
             <v-btn
                 color="amber darken-4"
                 flat
-                value="account" to="/app/account"
+                value="account"
+                to="/app/account"
             >
                 <span>Account</span>
                 <v-icon>people</v-icon>
@@ -57,12 +61,6 @@ export default {
     data: function() {
         return {
             data: "nothing yet"
-        }
-    },
-    methods: {
-        xxx: function (data) {
-            // body...
-            this.data = data;
         }
     },
     created: function() {

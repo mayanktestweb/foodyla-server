@@ -9,7 +9,7 @@
             </v-layout>
         </v-container>
 
-        <v-container v-else-if="!loading && this.$store.getters.cart.length == 0"
+        <v-container v-else-if="!loading && cartItemsCount == 0"
         fill-height>
             <v-layout justify-center align-center fill-height py-2>
                 <div class="cart_empty">Cart is empty. Add delicious food to your cart.</div>
@@ -89,6 +89,9 @@ export default {
     },
 
     computed: {
+        cartItemsCount: function() {
+            return this.$store.getters.cart.length;
+        },
         cartItems: function() {
             var dishByVarients = this.getAllDishByVarients();
             var cartIs = [];
@@ -177,7 +180,10 @@ export default {
     },
 
     created: function() {
-        this.$store.dispatch('showBottomNav', false);
+        this.$store.dispatch('setActiveOption', 'cart');
+        if (this.cartItemsCount > 0) {
+            this.$store.dispatch('showBottomNav', false);
+        }
     }
 }
 </script>

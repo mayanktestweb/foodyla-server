@@ -62,7 +62,7 @@ export default {
                     this.order_successful = true;
                     this.order_id = response.data.order_id;
                     this.delivery_code = response.data.delivery_code;
-                    this.order_message = "Your Order is placed successfully. Thanks for using Foodola.";
+                    this.order_message = "Your Order is placed successfully. Thanks for using Foodyla.";
 
                     if (localStorage.getItem('orders') == null) {
                         var orders = [];

@@ -2,7 +2,7 @@
     <div class="main white">
         <div class="msg title grey--text text--darken-3">{{this.$store.state.current_location}}</div>
         <div class="details">
-            <v-textarea label="Add Description" v-model="description"></v-textarea>
+            <v-textarea :label="label" v-model="description"></v-textarea>
         </div>
         <div class="action">
             <v-btn color="success" class="white--text" :disabled="disabled" block @click="saveLocation()">
@@ -16,6 +16,7 @@
 export default {
     data: function() {
         return {
+            label: "Add Description (like Houser No., Street Name, Landmark)",
             btn_txt: "Confirm Location",
             description: ""
         }

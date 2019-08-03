@@ -51,7 +51,7 @@ class UserController extends Controller
         $user->save();
 
         try{
-            MessageService::sendMessageTo($mobile_number, $otp);
+            MessageService::sendMessageTo($mobile_number, 'OTP '.$otp);
             $status = 'success';
         } catch(Exception $e) {
             \Log::debug($e);

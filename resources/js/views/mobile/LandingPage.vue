@@ -6,7 +6,7 @@
                 <div class="lction grey--text text--darken-2 font-weight-medium" style="margin-left:3px;">{{location_name}}</div>
             </div>
             <div class="img">
-                <img src="http://192.168.43.116/img/upper_bar.png" alt="">
+                <img src="https://foodyla.b-cdn.net/system_icons/upper_bar.png" alt="">
             </div>
         </div>
         <div class="restaurants">
@@ -46,6 +46,7 @@ import AppConst from '../../AppConst';
 export default {
     data: function() {
         return {
+            from_route: null,
             page: 1,
             tabVal: "delivery",
             show: true,
@@ -70,9 +71,15 @@ export default {
         }
     },
 
+    beforeRouteEnter: function(to, from, next) {
+        next(vm => {
+            vm.from_route = from.path;
+        });
+    },
+
     beforeRouteLeave: function(to, from, next) {
 
-        if (to.path == "/app/payment") {
+        if (to.path == "/app/payment" || to.path == this.from_route) {
             
             try {
                 Android.exit();
@@ -99,7 +106,7 @@ export default {
         location_name: function() {
             var location_name = this.$store.state.current_location;
             location_name = location_name.split(",");
-            location_name = location_name[0];
+            location_name = location_name[1];
 
             return location_name;
         }

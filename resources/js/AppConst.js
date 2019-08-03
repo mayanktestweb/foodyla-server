@@ -1,4 +1,6 @@
 const RootUrl = "https://www.foodyla.com/api";
+//const RootUrl = "http://192.168.43.116:8000/api";
+
 const UserIdUrl = RootUrl+"/user";
 const RestaurantPerPage = 6;
 const RestaurantsUrl = RootUrl+"/restaurants";

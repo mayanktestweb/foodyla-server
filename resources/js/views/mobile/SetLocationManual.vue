@@ -85,14 +85,15 @@ export default {
                 // send coordinates for reverse geo encoding
                 axios.get(AppConst.get_location, {
                     params: {
-                        lat: value.lat,
-                        long: value.long
+                        latlng: value.lat+","+value.long,
+                        key: "AIzaSyCbZnPgGn9-uDMQW4uP89ctM7MXsD4kysE"
                     }
                 }).then(response => {
                     if(response.status == '200') {
                         this.processing = false;
                         this.$store.dispatch('emptyRestaurants');
-                        this.$store.dispatch('setCurrentLocation', response.data);
+                        this.$store.dispatch('setCurrentLocation', 
+                            response.data.results[0].formatted_address);
                         this.$router.push("/app/confirm_gps_location");
                     }
                 });

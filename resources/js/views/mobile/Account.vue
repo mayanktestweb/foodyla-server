@@ -36,6 +36,10 @@ export default {
                 
             }
         }
+    },
+
+    created: function() {
+        this.$store.dispatch('setActiveOption', 'account');
     }
 }
 </script>

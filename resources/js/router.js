@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Spa from "./views/Spa.vue";
 import LandingPage from "./views/mobile/LandingPage.vue";
 import AppManager from "./views/mobile/AppManager.vue";
 
@@ -17,16 +16,13 @@ const Payment = () => import("./views/mobile/Payment.vue");
 const ConfirmOrder = () => import("./views/mobile/ConfirmOrder.vue");
 const Account = () => import("./views/mobile/Account.vue");
 const Orders = () => import("./views/mobile/Orders.vue");
+const Search = () => import("./views/mobile/Search.vue");
 
 import TestComp from "./views/TestComp.vue";
 
 export default new Router({
     mode: "history",
     routes: [
-        {
-            path: "/spa",
-            component: Spa
-        },
         {
             path: "/spa/test",
             component: () => import('./components/Test.vue')
@@ -85,6 +81,10 @@ export default new Router({
         {
             path: "/app/orders",
             component: Orders
+        },
+        {
+            path: "/app/search",
+            component: Search
         }
     ]
 });
