@@ -52,18 +52,18 @@ export default {
             get_otp: false,
             lock_otp: false,
             timer: 30,
-            progress: false
+            progress: false,
+            app_hash: 'nohash'
         }
     },
 
     created: function(){
         this.$store.dispatch('showBottomNav', false);
-        if(this.$store.state.sms_permission == false) {
-            try {
-                Android.requestSmsPermission();
-            } catch (error) {
-                
-            }
+        
+        try {
+            this.app_hash = Android.getAppHash();
+        } catch (error) {
+            
         }
     },
 
@@ -89,10 +89,6 @@ export default {
         disable_reason: function() {
             if(this.button_state == "get mobile number") return "Enter Valid Mobile Number";
             else if(this.button_state == "get otp") return "Resend OTP in "+this.timer;
-        },
-
-        android_response: function(){
-            return this.$store.state.android_response;
         }
     },
 
@@ -114,7 +110,8 @@ export default {
                 axios.post(AppConst.confirm_mobile_number, {
                         user_id: this.$store.state.user_id,
                         mobile_number: this.mobile_number,
-                        otp: this.generateOtp()
+                        otp: this.generateOtp(),
+                        app_hash: this.app_hash
                     }).then(response => {
                         this.progress = false;
                         if(response.status == 200) {
@@ -205,18 +202,6 @@ export default {
     },
 
     watch: {
-
-        android_response: function(newVal, oldVal) {
-            if(newVal == 'done') {
-                if(this.$store.sms_permission == false) {
-                    try {
-                        Android.showToast("This process needs this permission");
-                    } catch (error) {
-                        
-                    }
-                }
-            }
-        },
 
         otp: function(newVal, oldVal) {
             if(newVal.match(/\b\d{4}\b/)) {

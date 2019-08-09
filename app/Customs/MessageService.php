@@ -11,16 +11,24 @@ class MessageService
 
     public static function sendMessageTo($mobile_number, $message)
     {
-        $message = rawurlencode($message);
+        try {
+            $message = rawurlencode($message);
 
-        $data = array('apikey' => self::$apiKey, 'numbers' => $mobile_number, 'sender' => urlencode('STRMGR'),
-            "message" => $message);
+            $data = array('apikey' => self::$apiKey, 'numbers' => $mobile_number, 
+            'sender' => urlencode('STRMGR'), "message" => $message);
 
-        $ch = curl_init('https://api.textlocal.in/send/');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
+            $ch = curl_init('https://api.textlocal.in/send/');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::debug("problems ".$th->getMessage());
+        }
+
+        // \Log::debug($message);
     }
 }

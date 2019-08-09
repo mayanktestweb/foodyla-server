@@ -50,8 +50,11 @@ class UserController extends Controller
         $user->otp = $otp;
         $user->save();
 
+        $app_hash = $request->input('app_hash');
+
         try{
-            MessageService::sendMessageTo($mobile_number, 'OTP '.$otp);
+            $message = "<#> Foodyla: your OTP is $otp $app_hash";
+            MessageService::sendMessageTo($mobile_number, $message);
             $status = 'success';
         } catch(Exception $e) {
             \Log::debug($e);

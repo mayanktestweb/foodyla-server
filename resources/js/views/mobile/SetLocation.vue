@@ -5,10 +5,15 @@
         indeterminate
         color="amber"
         ></v-progress-circular>
-        <v-btn v-else color="success" class="white--text" @click="askForGpsLocation()" large>
-            <v-icon left dark>my_location</v-icon>
-            SET LOCATION
-        </v-btn>
+        <div v-else class="setloc">
+            <v-btn color="success" class="white--text" @click="askForGpsLocation()" large>
+                <v-icon left dark>my_location</v-icon>
+                SET LOCATION
+            </v-btn>
+            <div class="img" style="display: flex;flex-flow: row;justify-content: center;">
+                <img src="https://foodyla.b-cdn.net/system_icons/burgerDrink.svg">
+            </div>
+        </div>
     </v-layout>
 </template>
 
@@ -97,3 +102,18 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+div.img {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+img {
+    border-style: none;
+    position: absolute;
+    top: 100px;
+    width: 40%;
+}
+</style>

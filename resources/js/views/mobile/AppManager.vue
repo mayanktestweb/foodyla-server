@@ -21,7 +21,7 @@ export default {
 
         try {
             var userInfo = Android.requestUserData();
-            var isSmsPermission = Android.isSmsPermission();
+            
             var isGpsPermission = Android.isGpsPermission();
             
             userInfo = userInfo.split("|");
@@ -29,7 +29,6 @@ export default {
             this.$store.dispatch('setUserEmail', userInfo[1]);
             this.$store.dispatch('setUserImage', userInfo[2]);
 
-            this.$store.dispatch('setSmsPermission', isSmsPermission);
             this.$store.dispatch('setGpsPermission', isGpsPermission);
 
             if (localStorage.getItem('current_location') != null && 

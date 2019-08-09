@@ -35,7 +35,6 @@ export default new Vuex.Store({
         user_image: null,
         user_id: null,
         mobile_number: null,
-        sms_permission: false,
 
         gps_permission: false,
         lat_long: {lat: null, long: null},
@@ -150,10 +149,6 @@ export default new Vuex.Store({
             state.android_response = android_response;
         },
 
-        SET_SMS_PERMISSION(state, value) {
-            state.sms_permission = value;
-        },
-
         SET_GPS_PERMISSION(state, value) {
             state.gps_permission = value;
         },
@@ -235,10 +230,6 @@ export default new Vuex.Store({
 
         setAndroidResponse(context, android_response) {
             context.commit('SET_ANDROID_RESPONSE', android_response);
-        },
-
-        setSmsPermission(context, value){
-            context.commit('SET_SMS_PERMISSION', value);
         },
 
         setGpsPermission(context, value) {
