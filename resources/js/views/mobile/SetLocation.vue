@@ -87,6 +87,11 @@ export default {
 
     created: function() {
         this.$store.dispatch("showBottomNav", false);
+        try {
+            Android.requestLocationSetting();
+        } catch (error) {
+            
+        }
     },
 
     watch: {

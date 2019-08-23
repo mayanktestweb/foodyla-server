@@ -66,6 +66,13 @@ export default {
 
     methods: {
         askForGpsLocation: function() {
+
+            try {
+                Android.requestLocationSetting();
+            } catch (error) {
+                
+            }
+
             if(this.$store.getters.gps_permission) {
                 this.getLocationByGps();
             } else {

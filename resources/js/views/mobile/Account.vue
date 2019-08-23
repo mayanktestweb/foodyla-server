@@ -30,6 +30,7 @@
 export default {
     methods: {
         logout: function() {
+            this.$store.dispatch("setMobileNumber", null);
             try {
                 Android.logout();
             } catch (error) {

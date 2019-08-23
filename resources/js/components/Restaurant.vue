@@ -62,6 +62,7 @@ div.img {
 div.img img {
     width: 100%;
     height: 100%;
+    min-height: 19px;
     border-radius: 5px;
 }
 
