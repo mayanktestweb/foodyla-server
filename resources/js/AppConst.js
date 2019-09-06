@@ -10,6 +10,16 @@ const OrderStatus = RootUrl+"/order_status";
 const ConfirmMobileNumber = RootUrl+"/app/confirm_mobile_number";
 const ConfirmOtp = RootUrl+"/app/confirm_otp";
 const GetLocation = "https://maps.googleapis.com/maps/api/geocode/json";
+const DiscountCouponsUrl = RootUrl+"/discount_coupons";
+const SearchUrl = RootUrl+"/search";
+
+
+const DeliveryLogin = RootUrl+"/delivery/login";
+const AssignedOrders = RootUrl+"/delivery/assigned_orders";
+const OrderDetails = RootUrl+"/delivery/orders/details";
+const ConfirmDeliveryCode = RootUrl+"/delivery/orders/confirm_delivery";
+const UserInfo = RootUrl+"/delivery/user_info";
+const DiscountUser = RootUrl+"/delivery/user/discount";
 
 export default {
     root_url: RootUrl,
@@ -21,5 +31,14 @@ export default {
     order_status: OrderStatus,
     confirm_mobile_number: ConfirmMobileNumber,
     confirm_otp: ConfirmOtp,
-    get_location: GetLocation
+    get_location: GetLocation,
+    discount_coupons_url: DiscountCouponsUrl,
+    search_url: SearchUrl,
+
+    delivery_login: DeliveryLogin,
+    assigned_orders:  AssignedOrders,
+    order_details: OrderDetails,
+    confirm_delivery_code: ConfirmDeliveryCode,
+    user_info: UserInfo,
+    discount_user: DiscountUser
 }

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Customs\MessageService;
+use App\DeliveryMan;
+use App\DiscountCoupon;
+use App\SalesDiscountRecord;
 use Exception;
 
 class UserController extends Controller
@@ -78,5 +81,46 @@ class UserController extends Controller
         }
 
         return response()->json(['status' => $status]);
+    }
+
+    public function getInfo(Request $request)
+    {
+        $user = User::where(['mobile_number' => $request->input('mobile_number')])->
+            get()->first();
+
+        if($user) {
+            return response()->json(['status' => 'success', 'name' => $user->name]);
+        } else {
+            return response()->json(['status' => 'fail']);
+        }
+    }
+
+    public function getDiscountCoupons(Request $request) 
+    {
+        $user = User::find($request->input('user_id'));
+        $coupons = $user->discountCoupons;
+
+        return $coupons;
+    }
+
+    public function issueDiscount(Request $request)
+    {
+        $user = User::where(['mobile_number' => $request->input('mobile_number')])->
+            get()->first();
+        $discountCoupon = new DiscountCoupon();
+        $discountCoupon->coupon_value = $request->input('coupon_value');
+        $discountCoupon->user_id = $user->id;
+        $discountCoupon->save();
+
+        $deliveryMan = DeliveryMan::where(['login_token'=>$request->
+            input('login_token')])->get()->first();
+
+        $discountRecord = new SalesDiscountRecord();
+        $discountRecord->user_id = $user->id;
+        $discountRecord->discount_amount = $discountCoupon->coupon_value;
+        $discountRecord->delivery_man_id = $deliveryMan->id;
+        $discountRecord->save();    
+
+        return response()->json(['status'  => 'success']);
     }
 }

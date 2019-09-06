@@ -49,6 +49,20 @@
                     <div class="spacer"></div>
                     <div class="font-weight-medium grey--text text--darken-3">&#x20B9; {{delivery_charge}}</div>
                 </div>
+                <div class="discount" v-if="$store.state.discount_coupons.length > 0">
+                    <div v-if="$store.state.applied_discount_coupon == null">
+                        <v-btn flat small color="success" @click="$router.push('/app/discount_coupons')">APPLY DISCOUNT COUPON</v-btn>
+                    </div>
+                    <div v-else class="item">
+                        <div class="font-weight-medium grey--text text--darken-3">Coupon Discount</div>
+                        <div class="spacer">
+                            <v-btn flat color="success" small @click="removeCoupon()">REMOVE</v-btn>
+                        </div>
+                        <div class="font-weight-medium grey--text text--darken-3">
+                            &minus; &#x20B9; {{this.$store.state.applied_discount_coupon.coupon_value}} 
+                        </div>
+                    </div>
+                </div>
                 <div class="total">
                     <div class="total_text font-weight-medium subheader grey--text text--darken-3">Total Amount</div>
                     <div class="spacer"></div>
@@ -75,6 +89,7 @@ import VegIcon from "../../components/icons/VegIcon";
 import NonVegIcon from "../../components/icons/NonVegIcon";
 import EggIcon from "../../components/icons/EggIcon";
 import AddVarientButton from "../../components/AddVarientButton";
+import AppConst from '../../AppConst';
 
 const dishUpdateUrl = "http://192.168.43.116:8000/api/test";
 
@@ -149,6 +164,9 @@ export default {
             });
 
             total += this.delivery_charge;
+            if (this.$store.state.applied_discount_coupon != null) {
+                total -= this.$store.state.applied_discount_coupon.coupon_value;
+            }
             return total;
         }
     },
@@ -169,6 +187,10 @@ export default {
             } else {
                 this.$router.push("/app/payment");  
             }
+        },
+
+        removeCoupon: function() {
+            this.$store.dispatch('setAppliedDiscountCoupon', null);
         }
     },
 
@@ -184,6 +206,16 @@ export default {
         if (this.cartItemsCount > 0) {
             this.$store.dispatch('showBottomNav', false);
         }
+        axios.get(AppConst.discount_coupons_url, {
+            params: {
+                user_id: this.$store.state.user_id
+            }
+        }).then((response) => {
+            if (response.status == 200) {
+                console.log("i must be called");
+                this.$store.dispatch('setDiscountCoupons', response.data);
+            }
+        });
     }
 }
 </script>

@@ -65,3 +65,30 @@ Route::get("/order_status", 'OrderController@getStatus');
 Route::post('/app/confirm_mobile_number', 'UserController@sendOtp');
 
 Route::post('/app/confirm_otp', 'UserController@confirmOtp');
+
+Route::get("/discount_coupons", 'UserController@getDiscountCoupons');
+
+Route::get("/search", function() {
+    return $killo->kom;
+});
+
+
+
+
+/////////////////////////////////
+///
+///   Delivery Api Urls
+///
+/////////////////////////////////
+
+Route::post('/delivery/login', 'DeliveryManController@login');
+
+Route::get('/delivery/assigned_orders', 'DeliveryManController@getAssignedOrders');
+
+Route::get('/delivery/orders/details', 'OrderController@getOrderDetails');
+
+Route::post("/delivery/orders/confirm_delivery", 'OrderController@confirmDelivery');
+
+Route::get("/delivery/user_info", 'UserController@getInfo');
+
+Route::post("/delivery/user/discount", 'UserController@issueDiscount');

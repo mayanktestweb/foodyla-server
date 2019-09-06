@@ -74,9 +74,12 @@ Route::get("/app/landing_page", function() {
     return view('spa');
 });
 
+Route::get("/app/discount_coupons", function() {
+    return view('spa');
+});
 ////////////////////////////
 ///
-///  New Urls   
+///  Customer App Urls   
 ///
 ////////////////////////////
 
@@ -89,3 +92,41 @@ Route::get("/restaurants", 'RestaurantController@showRestaurants');
 Route::get("/restaurants/{restaurant}/dishes/add", 'RestaurantController@showAddDish');
 
 Route::post("/restaurants/{restaurant}/dishes/add", 'RestaurantController@addDish');
+
+
+
+
+
+/////////////////////////////
+///
+///  Delivery System
+///
+/////////////////////////////
+
+Route::get("/delivery/register", "DeliveryManController@showRegister");
+
+Route::post("/delivery/register", "DeliveryManController@register");
+
+Route::get("/delivery/manager", function() {
+    return view('spa');
+});
+
+Route::get("/delivery/login", function() {
+    return view('spa');
+});
+
+
+
+
+
+/////////////////////////////
+///
+///  Admin System
+///
+/////////////////////////////
+
+Route::get('/admin/orders', 'AdminController@showAllOrders');
+
+Route::get('/admin/assign_order/{order_id}/{delivery_man_id}', 'AdminController@assignOrder');
+
+Route::get('/admin/ordered_items/{order}', 'AdminController@orderedItems');

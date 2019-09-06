@@ -47,12 +47,14 @@ class RestaurantController extends Controller
 
     public function loadRestaurantPage(Request $request, Restaurant $restaurant)
     {
+        \Log::debug("i have got hit 1");
         $dishes = $restaurant->dishes;
         
         foreach($dishes as $dish) {
             $dish->varients;
         }
 
+        \Log::debug("i have got hit 2");
         return $dishes;
     }
 

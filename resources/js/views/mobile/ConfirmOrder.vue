@@ -54,7 +54,9 @@ export default {
                 location_description: this.$store.state.location_description,
                 latlong: this.$store.state.lat_long.lat+","+this.$store.state.lat_long.long,
                 order: this.getOrder(),
-                delivery_code: this.generateDeliveryCode()
+                delivery_code: this.generateDeliveryCode(),
+                applied_discount_coupon: this.$store.state.applied_discount_coupon != null ? 
+                    this.$store.state.applied_discount_coupon.id : null
             }).then(response => {
                 if (response.status == 200) {
                     
@@ -132,6 +134,8 @@ export default {
                 items.forEach(item=>{
                     this.$store.dispatch('removeDishVarient', item.varient_id);
                 });
+
+                this.$store.dispatch('setAppliedDiscountCoupon', null);
             }
         }
     }

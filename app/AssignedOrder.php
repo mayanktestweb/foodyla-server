@@ -4,15 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderedItem extends Model
+class AssignedOrder extends Model
 {
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function dishVarient()
+    public function deliveryMan()
     {
-        return $this->belongsTo(DishVarient::class, 'varient_id');
+        return $this->belongsTo(DeliveryMan::class);
     }
 }

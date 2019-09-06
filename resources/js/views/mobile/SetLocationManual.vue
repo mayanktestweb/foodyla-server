@@ -60,7 +60,9 @@ export default {
             area: null,
             districts: [],
             areas: [],
-            description: ""
+            description: "",
+            android_state: "null",
+            loc_found: false
         }
     },
 
@@ -76,6 +78,7 @@ export default {
             if(this.$store.getters.gps_permission) {
                 this.getLocationByGps();
             } else {
+                this.android_state = "getting_permit";
                 this.$store.dispatch('setAndroidResponse', 'waiting');
                 this.requestGpsPermission();
             }
@@ -88,23 +91,16 @@ export default {
 
         setPosition: function(position) {
             var value = {lat: position.coords.latitude, long: position.coords.longitude};
-            this.$store.dispatch('setLatLong', value).then(()=>{
-                // send coordinates for reverse geo encoding
-                axios.get(AppConst.get_location, {
-                    params: {
-                        latlng: value.lat+","+value.long,
-                        key: "AIzaSyCbZnPgGn9-uDMQW4uP89ctM7MXsD4kysE"
-                    }
-                }).then(response => {
-                    if(response.status == '200') {
-                        this.processing = false;
-                        this.$store.dispatch('emptyRestaurants');
-                        this.$store.dispatch('setCurrentLocation', 
-                            response.data.results[0].formatted_address);
-                        this.$router.push("/app/confirm_gps_location");
-                    }
-                });
-            });
+            
+            try {
+                this.processing = false;
+                this.android_state = "getting_loc";
+                this.loc_found = false;
+                this.$store.dispatch('setAndroidResponse', 'waiting');
+                Android.startLocationSystem(value.lat, value.long);
+            } catch (error) {
+                
+            }
         },
 
         requestGpsPermission: function() {
@@ -146,9 +142,29 @@ export default {
     watch: {
         androidResponse: function(newVal, oldVal) {
             if(oldVal === 'waiting' && newVal === 'done') {
-                if(this.$store.getters.gps_permission) {
-                    this.getLocationByGps();
+                
+                if (this.android_state == "getting_permit") {
+                
+                    if(this.$store.getters.gps_permission) {
+                        this.getLocationByGps();
+                    }
+                
+                } else if (this.android_state == "getting_loc") {
+                    localStorage.setItem("current_location", this.$store.state.current_location);
+                    localStorage.setItem("location_description", this.description);
+                    localStorage.setItem("latlong", JSON.stringify(this.$store.state.lat_long));
+                    
+                    if (this.loc_found) {
+                        this.$router.push("/app/landing_page");
+                    } else {
+                        try {
+                            Android.showToast("You didn't set location !");
+                        } catch (error) {
+                            
+                        }
+                    }
                 }
+
             }
         },
 

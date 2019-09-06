@@ -30,17 +30,21 @@ export default new Vuex.Store({
         cart: [],
         android_response: "nothing",
         
-        user_email: null,
-        user_name: null,
+        user_email: 'mayanktest@gmail.com',
+        user_name: 'mayank chauhan',
         user_image: null,
-        user_id: null,
+        user_id: 6,
         mobile_number: null,
 
         gps_permission: false,
         lat_long: {lat: null, long: null},
         current_location: "",
         location_description: "",
-        location_history: []
+        location_history: [],
+        discount_coupons: [
+            
+        ],
+        applied_discount_coupon: null
     },
 
     mutations: {
@@ -184,6 +188,14 @@ export default new Vuex.Store({
 
         SET_MOBILE_NUMBER(state, value) {
             state.mobile_number = value;
+        },
+
+        SET_DISCOUNT_COUPONS(state, value) {
+            state.discount_coupons = value;
+        },
+
+        SET_APPLIED_DISCOUNT_COUPON(state, value) {
+            state.applied_discount_coupon = value;
         }
     },
 
@@ -267,6 +279,14 @@ export default new Vuex.Store({
         setMobileNumber(context, value) {
             context.commit('SET_MOBILE_NUMBER', value);
             localStorage.setItem("mobile_number", value);
+        },
+
+        setDiscountCoupons(context, value) {
+            context.commit('SET_DISCOUNT_COUPONS', value);
+        },
+
+        setAppliedDiscountCoupon(context, value) {
+            context.commit('SET_APPLIED_DISCOUNT_COUPON', value);
         }
     },
 

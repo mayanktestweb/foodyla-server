@@ -17,6 +17,7 @@ const ConfirmOrder = () => import("./views/mobile/ConfirmOrder.vue");
 const Account = () => import("./views/mobile/Account.vue");
 const Orders = () => import("./views/mobile/Orders.vue");
 const Search = () => import("./views/mobile/Search.vue");
+const DiscountCoupons = () => import("./views/mobile/DiscountCoupons.vue");
 
 import TestComp from "./views/TestComp.vue";
 
@@ -85,6 +86,43 @@ export default new Router({
         {
             path: "/app/search",
             component: Search
+        },
+
+        {
+            path: "/app/discount_coupons",
+            component: DiscountCoupons
+        },
+
+
+        {
+            path: "/delivery/manager",
+            component: () => import('./views/delivery/Manager.vue')
+        },
+
+        {
+            path: "/delivery/login",
+            component: () => import('./views/delivery/Login.vue')
+        },
+
+        {
+            path: "/delivery/dashboard",
+            component: () => import('./views/delivery/Dashboard.vue')
+        },
+
+        {
+            path: "/delivery/orders",
+            component: () => import('./views/delivery/Orders.vue')
+        },
+
+        {
+            path: "/delivery/order/details/:id",
+            props: true,
+            component: () => import('./views/delivery/OrderDetails.vue')
+        },
+
+        {
+            path: "/delivery/issue_discount",
+            component: () => import('./views/delivery/IssueDiscount.vue')
         }
     ]
 });
