@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\AssignedOrder;
+use App\DeliveryMan;
 use App\Order;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function showAllOrders()
+    public function getAllOrders()
     {
-        $orders = Order::all()->reverse();
+        $orders = Order::all();
 
-        return $orders;
+        return response()->json(['orders' => $orders]);
     }
 
     public function assignOrder(Request $request)
@@ -37,5 +38,19 @@ class AdminController extends Controller
         }
 
         return $orderedItems;
+    }
+
+    public function getDeliveryMen()
+    {
+        $delivery_men = DeliveryMan::all();
+
+        return response()->json(['delivery_men' => $delivery_men]);
+    }
+
+    public function assignedOrders()
+    {
+        $assignedOrders = AssignedOrder::all();
+
+        return response()->json(['assigned_orders' => $assignedOrders]);
     }
 }

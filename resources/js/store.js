@@ -44,7 +44,10 @@ export default new Vuex.Store({
         discount_coupons: [
             
         ],
-        applied_discount_coupon: null
+        applied_discount_coupon: null,
+        delivery_charge: 10,
+        other_discount: 0,
+        cashback_string: null
     },
 
     mutations: {
@@ -196,6 +199,18 @@ export default new Vuex.Store({
 
         SET_APPLIED_DISCOUNT_COUPON(state, value) {
             state.applied_discount_coupon = value;
+        },
+
+        SET_DELIVERY_CHARGE(state, value) {
+            state.delivery_charge = value;
+        },
+        
+        SET_OTHER_DISCOUNT(state, value) {
+            state.other_discount = value;
+        },
+
+        SET_CASHBACK_STRING(state, value) {
+            state.cashback_string = value;
         }
     },
 
@@ -287,6 +302,18 @@ export default new Vuex.Store({
 
         setAppliedDiscountCoupon(context, value) {
             context.commit('SET_APPLIED_DISCOUNT_COUPON', value);
+        },
+
+        setDeliveryCharge(context, value) {
+            context.commit('SET_DELIVERY_CHARGE', value);
+        },
+
+        setOtherDiscount(context, value) {
+            context.commit('SET_OTHER_DISCOUNT', value);
+        },
+
+        setCashbackString(context, value) {
+            context.commit("SET_CASHBACK_STRING", value);
         }
     },
 

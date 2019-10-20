@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import sha256 from "js-sha256";
+import axios from 'axios';
+
 export default {
     data: function(){
         return {
@@ -53,6 +56,23 @@ export default {
         }
     },
 
+    computed: {
+        base64payload: function() {
+            var payload = {
+                "merchantId":"M2306160483220675579140",
+                "transactionId":"TRX31",
+                "merchantUserId":"A23",
+                "amount":100
+            }
+
+            payload = JSON.stringify(payload);
+
+            var a = btoa(payload);
+            console.log("a -- "+a);
+            return a;
+        }
+    },
+
     methods: {
         showMsg: function() {
             try {
@@ -60,6 +80,28 @@ export default {
             } catch (error) {
                 
             }
+        },
+
+        startPhonepePayment() {
+            var sha3 = sha256(this.base64payload+"/v4/debit"+"8289e078-be0b-484d-ae60-052f117f8deb");
+            console.log(sha3);
+            let config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-VERIFY": sha3+"####1"
+                }
+            }
+
+            axios.post("https://mercury-uat.phonepe.com/v4/debit/",
+                {
+                    request: this.base64payload
+                },
+                config
+            ).then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.log("problem -- "+error);
+            })
         }
     }
 }

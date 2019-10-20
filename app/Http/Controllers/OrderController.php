@@ -29,6 +29,9 @@ class OrderController extends Controller
             $coupon->delete();
         }
 
+        $o->discount += $request->input('other_discount');
+
+        $o->delivery_charge = $request->input('delivery_charge');
         $o->save();
 
         $order = $request->input('order');
@@ -41,6 +44,20 @@ class OrderController extends Controller
 
             $o->orderedItems()->save($oItem);
         }
+
+        $user = User::find($request->input('user_id'));
+        if($user->orders_made == 0) {
+            $cashbacks = $request->input('cashback_string');
+            foreach($cashbacks as $cashback) {
+                $coupon = new DiscountCoupon();
+                $coupon->user_id = $user->id;
+                $coupon->coupon_value = $cashback;
+                $coupon->save();
+            }
+        }
+
+        $user->orders_made = $user->orders_made + 1;
+        $user->save();
 
         return response()->json(['order_id' => $o->id, 'delivery_code'=> $o->delivery_code]);
     }
@@ -69,7 +86,7 @@ class OrderController extends Controller
                         'label'=> $item->dishVarient->label,
                         'price'=> $item->price,
                         'cost' => $item->dishVarient->restaurantRate->rate,
-                        'count'=> $item->count
+                        'count'=> $item->count                       
                     ];
 
             $dishes->push($dish);        
@@ -80,8 +97,12 @@ class OrderController extends Controller
             'mobile_number' => $customer->mobile_number,
             'address' => $order->location_description.", ".$order->current_location,
             'restaurant' => $restaurant->name,
+            'rest_mobile_number' => $restaurant->mobile_number,
             'dishes' => $dishes,
-            'discount'  => $order->discount
+            'discount'  => $order->discount,
+            'latlong'=> $order->latlong,
+            'status' => $order->status,
+            'delivery_charge' => $order->delivery_charge
         ]);
     }
 
@@ -99,5 +120,14 @@ class OrderController extends Controller
         }
 
         return response()->json(['status'=>$status]);
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        $order = Order::find($request->id);
+        $order->status = "cancel";
+        $order->save();
+
+        return "success";
     }
 }

@@ -9,6 +9,7 @@
         <div v-else>
             <div class="order white" v-for="order in orders" :key="order.id">
                 <div class="order_id">{{order.order_id}}</div>
+                <div v-if="isWorking(order.order_id)" class="green--text font-weight-medium">Working</div>
                 <div class="order_action" @click="$router.push('/delivery/order/details/'+order.order_id)">
                     <v-btn class="primary" dark>Show Details</v-btn>
                 </div>
@@ -37,12 +38,18 @@ export default {
                 login_token: localStorage.getItem('login_token')
             }
         }).then(response => {
-            this.orders = response.data.orders;
+            this.orders = response.data.orders.reverse();
         }).catch(error => {
             console.log(error);
         }).finally(() =>
             {this.processing = false;}
         );
+    },
+
+    methods: {
+        isWorking(order_id) {
+            return localStorage.getItem('working_order_id') == order_id;
+        }
     }
 }
 </script>

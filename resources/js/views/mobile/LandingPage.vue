@@ -9,7 +9,11 @@
                 <img src="https://foodyla.b-cdn.net/system_icons/upper_bar.png" alt="">
             </div>
         </div>
+        
         <div class="restaurants">
+            <div class="offer_panel white">
+                <first-order-offer></first-order-offer>
+            </div>
             <v-layout fill-height column>
                 <v-flex sm12>
                     <div v-if="this.$store.getters.loading && 
@@ -43,6 +47,8 @@ import BottomObserver from "./BottomObserver";
 import { setTimeout } from 'timers';
 import AppConst from '../../AppConst';
 
+import FirstOrderOffer from "../../components/OfferPanels/FirstOrderOffer";
+
 export default {
     data: function() {
         return {
@@ -59,7 +65,8 @@ export default {
         'restaurant-skeliton': RestaurantSkeliton,
         'restaurant': Restaurant,
         'foote': Footer,
-        'bottom-observer': BottomObserver
+        'bottom-observer': BottomObserver,
+        'first-order-offer': FirstOrderOffer
     },
 
     created: function(){
@@ -122,6 +129,10 @@ div.location {
     font-size: 1.5em;
     z-index: 1;
     box-shadow: 1px 1px 2px gray;
+}
+
+div.offer_panel {
+    margin: 5px;
 }
 
 div.text {

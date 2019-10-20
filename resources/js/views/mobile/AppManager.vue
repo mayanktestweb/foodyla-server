@@ -20,16 +20,6 @@ export default {
         this.$store.dispatch('showBottomNav', false);
 
         try {
-            var userInfo = Android.requestUserData();
-            
-            var isGpsPermission = Android.isGpsPermission();
-            
-            userInfo = userInfo.split("|");
-            this.$store.dispatch('setUserName', userInfo[0]);
-            this.$store.dispatch('setUserEmail', userInfo[1]);
-            this.$store.dispatch('setUserImage', userInfo[2]);
-
-            this.$store.dispatch('setGpsPermission', isGpsPermission);
 
             if (localStorage.getItem('current_location') != null && 
                 localStorage.getItem('location_description') != null) {
@@ -40,6 +30,17 @@ export default {
             if (localStorage.getItem("latlong") != null) {
                 this.$store.dispatch('setLatLong', JSON.parse(localStorage.getItem('latlong')));
             }
+
+            var userInfo = Android.requestUserData();
+            
+            var isGpsPermission = Android.isGpsPermission();
+            
+            userInfo = userInfo.split("|");
+            this.$store.dispatch('setUserName', userInfo[0]);
+            this.$store.dispatch('setUserEmail', userInfo[1]);
+            this.$store.dispatch('setUserImage', userInfo[2]);
+
+            this.$store.dispatch('setGpsPermission', isGpsPermission);
 
         } catch (error) {
             console.log(error);

@@ -25,16 +25,16 @@ export default {
             return this.coupon.coupon_value;
         },
         color: function() {
-            if (this.coupon_value == 1) {
-                return "orange";
-            } else if (this.coupon_value == 2) {
-                return "blue";
-            } else if (this.coupon_value == 3) {
+            if (this.coupon_value >= 1 && this.coupon_value < 5) {
                 return "teal";
-            } else if (this.coupon_value == 4) {
-                return "blue-grey";
-            } else {
+            } else if (this.coupon_value >= 5 && this.coupon_value < 10) {
+                return "orange";
+            } else if (this.coupon_value == 10) {
+                return "blue";
+            } else if (this.coupon_value == 15) {
                 return "green";
+            } else {
+                return "red";
             }
         },
 

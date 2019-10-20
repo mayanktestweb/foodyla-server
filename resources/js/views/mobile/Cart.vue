@@ -18,12 +18,22 @@
         
         <div v-else class="main grey lighten-2">
             <div class="header white">
+                <div>
+                    <v-icon @click="$router.go(-1)">arrow_back</v-icon>
+                </div>
                 <div class="restaurant_image">
-                    <img src="http://192.168.43.116/img/butter_chicken.jpg" alt="">
+                    <img :src="this.$store.getters.restaurantById(this.$store.state.cart_restaurant).image" alt="">
                 </div>
                 <div class="restaurant_title">
-                    <h2>Jodhpur Mishthan Bhandar</h2>
+                    <h2>
+                        {{this.$store.getters.restaurantById(this.$store.state.cart_restaurant).name}}
+                    </h2>
                 </div>
+            </div>
+
+            <div class="offer white" 
+                v-if="this.$store.getters.restaurantById(this.$store.state.cart_restaurant).offer != null">
+                <span class="amber--text text--darken-3 font-weight-medium">10% off on orders above &#x20B9;100 upto &#x20B9;100</span>
             </div>
 
             <div class="items white">
@@ -44,30 +54,54 @@
                     <div class="amount">&#x20B9; {{item.price * item.count}}</div>
                     <div class="divider"></div>
                 </div>
-                <div class="item">
-                    <div class="font-weight-medium grey--text text--darken-3">Delivery Charge</div>
+                
+                <div v-if="offer_discount > 0" class="item">
+                    <div class="font-weight-medium success--text">Offer Discount</div>
                     <div class="spacer"></div>
-                    <div class="font-weight-medium grey--text text--darken-3">&#x20B9; {{delivery_charge}}</div>
+                    <div class="font-weight-medium success--text">&#x20B9; {{offer_discount}}</div>
                 </div>
                 <div class="discount" v-if="$store.state.discount_coupons.length > 0">
                     <div v-if="$store.state.applied_discount_coupon == null">
-                        <v-btn flat small color="success" @click="$router.push('/app/discount_coupons')">APPLY DISCOUNT COUPON</v-btn>
+                        <v-btn flat small color="success" @click="applyDiscountCoupon()">APPLY DISCOUNT COUPON</v-btn>
                     </div>
                     <div v-else class="item">
-                        <div class="font-weight-medium grey--text text--darken-3">Coupon Discount</div>
+                        <div class="font-weight-medium green--text">Coupon Discount</div>
                         <div class="spacer">
                             <v-btn flat color="success" small @click="removeCoupon()">REMOVE</v-btn>
                         </div>
-                        <div class="font-weight-medium grey--text text--darken-3">
-                            &minus; &#x20B9; {{this.$store.state.applied_discount_coupon.coupon_value}} 
+                        <div class="font-weight-medium green--text">
+                            &#x20B9; {{this.$store.state.applied_discount_coupon.coupon_value}} 
                         </div>
                     </div>
                 </div>
-                <div class="total">
-                    <div class="total_text font-weight-medium subheader grey--text text--darken-3">Total Amount</div>
+
+                <div class="item">
+                    <div class="font-weight-medium grey--text text--darken-3">Order Total</div>
                     <div class="spacer"></div>
-                    <div class="total_amount font-weight-medium subheader grey--text text--darken-3">&#x20B9; {{total_amount}}</div>
+                    <div class="font-weight-medium grey--text text--darken-3">&#x20B9; {{dish_amount}}</div>
                 </div>
+
+                <div class="item">
+                    <div>
+                        <div class="font-weight-medium grey--text text--darken-3">Delivery Charge</div>
+                        <div class="caption grey--text text--darken-1">
+                            Free Delivery on Order Total above &#x20B9;100
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div v-if="delivery_charge > 0" class="font-weight-medium grey--text text--darken-3">&#x20B9; {{delivery_charge}}</div>
+                    <div v-else class="font-weight-medium success--text">FREE</div>
+                </div>
+
+                <div class="total">
+                    <div class="total_text title subheader grey--text text--darken-3">Total Amount</div>
+                    <div class="spacer"></div>
+                    <div class="total_amount title subheader grey--text text--darken-3">&#x20B9; {{total_amount}}</div>
+                </div>
+            </div>
+
+            <div class="cart_footer">
+            
             </div>
         </div>
         
@@ -98,8 +132,7 @@ export default {
         return {
             loading: false,
             image: '',
-            ask_mobile_number: false,
-            delivery_charge: 10
+            ask_mobile_number: false
         }
     },
 
@@ -158,16 +191,83 @@ export default {
         },
 
         total_amount: function() {
-            var total = 0;
-            this.$store.getters.cart.forEach(item => {
-                total += item.varient_price;
-            });
+            var total = this.dish_amount;
 
             total += this.delivery_charge;
+            
+            return total;
+        },
+
+        offer_discount: function() {
+            var offer = this.$store.getters.restaurantById(this.$store.state.cart_restaurant).offer;
+
+            if (offer != null && this.pure_dish_total > 100) {
+                var total = this.pure_dish_total;
+                // lets just hardcode 10 % of offer discount on Orders above Rs 100
+                var od = total/10;
+                od = Math.trunc(od);
+
+                if (od > 100) {
+                    od = 100;
+                }
+
+                return od;
+            } else {
+                return 0;
+            }
+        },
+
+        dish_amount: function() {
+            var total = this.pure_dish_total - this.offer_discount;
             if (this.$store.state.applied_discount_coupon != null) {
                 total -= this.$store.state.applied_discount_coupon.coupon_value;
             }
             return total;
+        },
+
+        pure_dish_total: function() {
+            var total = 0;
+            this.$store.getters.cart.forEach(item => {
+                total += item.varient_price;
+            });
+            return total;
+        },
+
+        delivery_charge: function() {
+            if (this.dish_amount > 100) {
+                return 0;
+            } else {
+                return 10;
+            }
+        },
+
+        cashback_string: function() {
+            // 50% cashback upto Rs 100
+            var cashback_amount = this.dish_amount/2;
+            cashback_amount = Math.trunc(cashback_amount);
+
+            if (cashback_amount > 100) {
+                cashback_amount = 100;
+            }
+
+            var cb_string = [];
+            while (cashback_amount > 0) {
+                if (cashback_amount >= 80) {
+                    cb_string[cb_string.length] = 20;
+                    cashback_amount -= 20;
+                } else if (cashback_amount > 50 && cashback_amount < 80) {
+                    cb_string[cb_string.length] = 15;
+                    cashback_amount -= 15;
+                } else if (cashback_amount <= 50 && cashback_amount >= 10) {
+                    cb_string[cb_string.length] = 10;
+                    cashback_amount -= 10;
+                } else if (cashback_amount < 10) {
+                    cb_string[cb_string.length] = cashback_amount;
+                    cashback_amount = 0;
+                }
+            }
+
+            return cb_string;
         }
     },
 
@@ -185,12 +285,20 @@ export default {
             if(this.$store.state.mobile_number == null || this.$store.state.mobile_number == "") {
                 this.ask_mobile_number = true;
             } else {
+                this.$store.dispatch('setOtherDiscount', this.offer_discount);
+                this.$store.dispatch('setDeliveryCharge', this.delivery_charge);
+                this.$store.dispatch('setCashbackString', this.cashback_string);
                 this.$router.push("/app/payment");  
             }
         },
 
         removeCoupon: function() {
             this.$store.dispatch('setAppliedDiscountCoupon', null);
+        },
+
+        applyDiscountCoupon: function () {
+            this.$store.dispatch('setOtherDiscount', this.offer_discount);
+            this.$router.push('/app/discount_coupons');
         }
     },
 
@@ -216,6 +324,24 @@ export default {
                 this.$store.dispatch('setDiscountCoupons', response.data);
             }
         });
+    },
+
+    watch: {
+        dish_amount: function(newVal, oldVal) {
+            if (this.$store.state.applied_discount_coupon != null) {
+                var coupon_obj = this.$store.state.applied_discount_coupon;
+
+                newVal += coupon_obj.coupon_value;
+
+                if (coupon_obj.coupon_value >= 5 && coupon_obj.coupon_value < 15 && newVal < 50) {
+                    this.removeCoupon();
+                } else if (coupon_obj.coupon_value == 15 && newVal < 150) {
+                    this.removeCoupon();
+                } else if (coupon_obj.coupon_value == 20 && newVal < 200) {
+                    this.removeCoupon();
+                }
+            }
+        }
     }
 }
 </script>
@@ -235,6 +361,17 @@ export default {
         display: flex;
         flex-flow: row;
         align-items: center;
+    }
+
+    div.header > div{
+        text-align: center;
+    }
+
+    div.offer {
+        margin-top: 10px;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
     }
 
     div.restaurant_image {
@@ -317,5 +454,9 @@ export default {
         color: orangered;
         text-shadow: 2px 2px 2px orange;
         text-align: center;
+    }
+
+    div.cart_footer {
+        min-height: 100px;
     }
 </style>

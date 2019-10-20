@@ -27,6 +27,10 @@
                 <div class="font-weight-medium black--text">
                     {{order.address}}
                 </div>
+                <div>
+                    <input type="text" :value="order.latlong" id="latlong"><br>
+                    <v-btn color="green" dark @click="copyLocation()">Copy Location</v-btn>
+                </div>
             </div>
 
             <div class="restaurant">
@@ -57,8 +61,8 @@
             </div>
 
             <div class="action">
-                <div>Delivery Id : {{this.id}}</div>
-                <div v-if="!delivery_confirmed">
+                <div>Order Id : {{this.id}}</div>
+                <div v-if="!delivery_confirmed && (this.order.status != 'cancel' || this.order.status != 'delivered')">
                     <v-text-field
                         label="Enter Delivery Code"
                         v-model="delivery_code"
@@ -77,6 +81,9 @@
                     'font-weight-medium']">
                         {{this.confirm_msg}}
                     </div>
+                </div>
+                <div v-if="!delivery_confirmed && workStarted()">
+                    <v-btn color="green" dark block @click="setStartWorking()">Start Working</v-btn>
                 </div>
             </div>
 
@@ -134,6 +141,26 @@ export default {
             } catch (error) {
                 
             }
+        },
+
+        copyLocation() {
+            var copyText = document.getElementById("latlong");
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+        },
+
+        setStartWorking() {
+            localStorage.setItem('working_order_id', this.id);
+        },
+
+        workStarted() {
+            return localStorage.getItem('working_order_id') == this.id ? false : true;
         }
     },
 
@@ -153,7 +180,9 @@ export default {
                 price += dish.price*dish.count;
             });
 
-            return price+10;
+            price -= this.order.discount;
+
+            return price + this.order.delivery_charge;
         }
     },
 
@@ -166,8 +195,11 @@ export default {
         }).then(response => {
             this.order = response.data;
             this.mobile_number = response.data.mobile_number;
+            if (this.order.status == "delivered" || this.order.status == "cancel") {
+                this.delivery_confirmed = true;
+            }
         }).catch(error => {
-
+            window.alert("something went wrong while loading order details");
         }).finally(() => {this.processing = false;});
     }
 }

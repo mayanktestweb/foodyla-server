@@ -60,7 +60,7 @@ export default new Router({
             component: MobileCart
         },
         {
-            path: "/fakkad/test",
+            path: "/app/test",
             component: TestComp
         },
         {
@@ -123,6 +123,40 @@ export default new Router({
         {
             path: "/delivery/issue_discount",
             component: () => import('./views/delivery/IssueDiscount.vue')
+        },
+
+
+        // now lets create some admin routes
+        {
+            path: "/admin/dashboard",
+            component: () => import('./views/admin/Dashboard.vue')
+        },
+
+        {
+            path: "/admin/restaurants",
+            component: () => import('./views/admin/Restaurants.vue')
+        },
+
+        {
+            path: "/admin/restaurants/add",
+            component: () => import('./views/admin/AddRestaurant.vue')
+        },
+
+        {
+            path: "/admin/restaurant/:id/edit",
+            props: true,
+            component: () => import("./views/admin/EditRestaurant.vue")
+        },
+
+        {
+            path: "/admin/restaurant/:id/dishes",
+            props: true,
+            component: () => import("./views/admin/Dishes.vue")
+        },
+
+        {
+            path: "/admin/orders",
+            component: () => import("./views/admin/Orders.vue")
         }
     ]
 });

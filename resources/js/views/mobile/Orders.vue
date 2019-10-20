@@ -14,7 +14,7 @@
                     <div class="orange--text font-weight-medium">Delivery Code : {{order.delivery_code}}</div>
                 </div>
                 <div v-if="order.status == 'delivered'" class="green--text font-weight-medium">DELIVERED</div>
-                <div v-else-if="order.status == 'cancled'" class="red--text font-weight-medium">CANCLED</div>
+                <div v-else-if="order.status == 'cancel'" class="red--text font-weight-medium">CANCELED</div>
                 <div v-else class="orange--text font-weight-medium">{{order.status.toUpperCase()}}</div>
             </div>
 
@@ -60,7 +60,7 @@ export default {
 
             orders.forEach(order => {
                 
-                if(order.status != 'delivered' && order.status != 'cancled') {
+                if(order.status != 'delivered' && order.status != 'cancel') {
                     this.loading = true;
                     console.log(order);
                     axios.get(AppConst.order_status, {

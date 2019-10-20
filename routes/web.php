@@ -115,6 +115,10 @@ Route::get("/delivery/login", function() {
     return view('spa');
 });
 
+Route::get("/delivery/dashboard", function() {
+    return view('spa');
+});
+
 
 
 
@@ -125,8 +129,16 @@ Route::get("/delivery/login", function() {
 ///
 /////////////////////////////
 
-Route::get('/admin/orders', 'AdminController@showAllOrders');
+// Route::get('/admin/orders', 'AdminController@showAllOrders');
 
-Route::get('/admin/assign_order/{order_id}/{delivery_man_id}', 'AdminController@assignOrder');
+// Route::get('/admin/assign_order/{order_id}/{delivery_man_id}', 'AdminController@assignOrder');
 
-Route::get('/admin/ordered_items/{order}', 'AdminController@orderedItems');
+// Route::get('/admin/ordered_items/{order}', 'AdminController@orderedItems');
+
+// Route::get("/restaurants/{restaurant}/dishes/add", 'RestaurantController@showAddDish');
+
+// Route::post("/restaurants/{restaurant}/dishes/add", 'RestaurantController@addDish');
+
+Route::get('/admin/{any}', function() {
+    return view('spa');
+})->where('any', '.*');

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>{{name}}</h2>
+        <h2>{{a_name}}</h2>
         <input type="text" name="name" v-model="data"><br><br>
         <button @click="saveSession">Submit</button>
         <br><button @click="showData">Show Data</button>
@@ -15,7 +15,8 @@ export default {
     data: function() {
         return {
             success: false,
-            data: ""
+            data: "",
+            a_name: "mayank"
         }
     },
     computed: {
